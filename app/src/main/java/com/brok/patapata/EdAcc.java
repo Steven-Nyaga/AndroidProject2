@@ -4,9 +4,12 @@ import android.os.Bundle;
 import android.content.Intent;
 import androidx.annotation.NonNull;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,6 +24,7 @@ public class EdAcc extends Fragment {
 
     private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
             changeEmail, changePassword, sendEmail, remove, signOut;
+    private Spinner edSpinner;
 
     private EditText oldEmail, newEmail, password, newPassword;
     private ProgressBar progressBar;
@@ -71,6 +75,32 @@ public class EdAcc extends Fragment {
         newEmail = (EditText) getView().findViewById(R.id.new_email);
         password = (EditText) getView().findViewById(R.id.password);
         newPassword = (EditText) getView().findViewById(R.id.newPassword);
+
+        edSpinner = (Spinner) getView().findViewById(R.id.edspin);
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.languages));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        edSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position)
+                {
+                    case 0:
+                        break;
+
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        edSpinner.setAdapter(myAdapter);
 
         oldEmail.setVisibility(View.GONE);
         newEmail.setVisibility(View.GONE);

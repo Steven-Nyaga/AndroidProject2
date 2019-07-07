@@ -31,18 +31,11 @@ public class MainFragmentUser extends Fragment {
     }
     public void onViewCreated(View view, Bundle savedInstanceState) {
         mySpinner = (Spinner) getView().findViewById(R.id.spinner2);
-        //value = mySpinner.getSelectedItem().toString();
         button = (Button) getView().findViewById(R.id.litre_btn);
 
         ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.Litres));
         myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mySpinner.setAdapter(myAdapter);
-
-        //Wagwan
-/*
-                Intent intent = new Intent(getActivity(), MapsActivity.class);
-                startActivity(intent);
-*/
 
 mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
     @Override
@@ -101,36 +94,6 @@ mySpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
     }
 });
-
-//                if (value.equalsIgnoreCase("1000")) {
-//                    FirebaseDatabase.getInstance().getReference("requests").child(FirebaseAuth.
-//                            getInstance().getCurrentUser().getUid()).setValue(value);
-//                    Intent intent = new Intent(getActivity(), MapsActivity.class);
-//                    //intent.putExtra("VALUE", value);
-//                    startActivity(intent);
-//
-//                } else if (value.equalsIgnoreCase("2500")) {
-//                    FirebaseDatabase.getInstance().getReference("requests").child(FirebaseAuth.
-//                            getInstance().getCurrentUser().getUid()).setValue(value);
-//                    Intent intent = new Intent(getActivity(), MapsActivity.class);
-//                    //intent.putExtra("VALUE", value);
-//                    startActivity(intent);
-//
-//                } else if (value.equalsIgnoreCase("5000")) {
-//                    FirebaseDatabase.getInstance().getReference("requests").child(FirebaseAuth.
-//                            getInstance().getCurrentUser().getUid()).setValue(value);
-//                    Intent intent = new Intent(getActivity(), MapsActivity.class);
-//                    intent.putExtra("VALUE", value);
-//                    startActivity(intent);
-//
-//                } else if (value.equalsIgnoreCase("10000")) {
-//                    FirebaseDatabase.getInstance().getReference("requests").child(FirebaseAuth.
-//                            getInstance().getCurrentUser().getUid()).setValue(value);
-//                    Intent intent = new Intent(getActivity(), MapsActivity.class);
-//                    intent.putExtra("VALUE", value);
-//                    startActivity(intent);
-//
-//                }
             }
 
 

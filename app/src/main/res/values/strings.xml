@@ -72,4 +72,11 @@
     <string name="Buy">Buy</string>
     <string name="title_activity_driver_maps">Map</string>
 
+    <!-- Language options -->
+    <string-array name="languages">
+        <item>Choose Language</item>
+        <item>English</item>
+        <item>Kiswahili</item>
+    </string-array>
+
 </resources>
