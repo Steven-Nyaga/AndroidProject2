@@ -1,6 +1,7 @@
 package com.brok.patapata;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
 import android.content.Intent;
@@ -8,6 +9,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.brok.patapata.directionhelpers.FetchURL;
+import com.brok.patapata.directionhelpers.TaskLoadedCallback;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -15,14 +18,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.Polyline;
+import com.google.android.gms.maps.model.PolylineOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
+public class driverMaps extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback {
+//public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
     private DatabaseReference mReq;
     private Button report, button, finish;
     private GoogleMap mMap;
@@ -95,21 +99,6 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
             }
         });
 
-    }
-
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        userid = getIncomingIntent();
         driverid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         //Delete all other requests the driver currently has.
         FirebaseDatabase.getInstance().getReference().child("requests").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -164,8 +153,6 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
         });
 
 
-        mMap = googleMap;
-
         // Add a marker on Driver Location and move the camera
         LatLng dlocation = new LatLng(dlat, dlng);
         LatLng ulocation = new LatLng(ulat, ulng);
@@ -177,7 +164,27 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
 
         //connecting drver and user via a path
         String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+        new FetchURL(driverMaps.this).execute(url, "driving");
 
+    }
+
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        userid = getIncomingIntent();
+
+        mMap = googleMap;
+mMap.addMarker(driverlocation);
+        mMap.addMarker(userlocation);
     }
 
 
@@ -204,5 +211,12 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
         }
 
         return null;
+    }
+
+    @Override
+    public void onTaskDone(Object... values) {
+if(currentPolyline!=null)
+    currentPolyline.remove();
+currentPolyline = mMap.addPolyline((PolylineOptions)values[0]);
     }
 }
