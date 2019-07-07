@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical"
+    tools:context=".Activity_Send_Report">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingBottom="75dp"
+        android:text="What seems to be the issue?"
+        android:textColor="@color/colorAccent"
+        android:textSize="24dp" />
+
+    <EditText
+        android:id="@+id/report"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Describe Your Problem Here"
+        android:maxLines="1"
+        android:paddingBottom="50dp"
+        android:singleLine="true"
+        android:textColor="@color/text" />
+
+    <Button
+
+        android:id="@+id/reportButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:alpha="1.0"
+        android:background="@color/colorAccent"
+        android:text="Submit" />
+
+
+</LinearLayout>

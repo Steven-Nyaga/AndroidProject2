@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_not"
+            android:icon="@drawable/ic_not"
+            android:title="Notifications" />
+        <item
+            android:id="@+id/nav_report"
+            android:icon="@drawable/ic_report"
+            android:title="Report History" />
+        <item
+            android:id="@+id/nav_acc"
+            android:icon="@drawable/ic_person"
+            android:title="Account Settings" />
+
+    </group>
+
+
+</menu>
