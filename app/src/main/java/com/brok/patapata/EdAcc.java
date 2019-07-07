@@ -1,5 +1,6 @@
 package com.brok.patapata;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.content.Intent;
 import androidx.annotation.NonNull;
@@ -18,6 +19,8 @@ import com.google.firebase.auth.FirebaseUser;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+
+import java.util.Locale;
 
 
 public class EdAcc extends Fragment {
@@ -88,8 +91,10 @@ public class EdAcc extends Fragment {
                         break;
 
                     case 1:
+                        setLocale("en");
                         break;
                     case 2:
+                        setLocale("sw-rKE");
                         break;
 
                 }
@@ -274,6 +279,14 @@ public class EdAcc extends Fragment {
 
     }
 
+    private void setLocale(String lang) {
+        /*
+        Locale locale = new Locale(lang);
+        Locale.setDefault(locale);
+        Configuration config = new Configuration();
+        config.locale = locale;
+*/
+    }
 
 
     //sign out method
