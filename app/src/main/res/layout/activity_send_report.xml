@@ -13,7 +13,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:paddingBottom="75dp"
-        android:text="What seems to be the issue?"
+        android:text="@string/send_report_prompt"
         android:textColor="@color/colorAccent"
         android:textSize="24dp" />
 
@@ -21,7 +21,7 @@
         android:id="@+id/report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Describe Your Problem Here"
+        android:hint="@string/send_report_hint"
         android:maxLines="1"
         android:paddingBottom="50dp"
         android:singleLine="true"
@@ -34,7 +34,7 @@
         android:layout_height="wrap_content"
         android:alpha="1.0"
         android:background="@color/colorAccent"
-        android:text="Submit" />
+        android:text="@string/submit_button" />
     <TextView
         android:id="@+id/test"
         android:layout_width="wrap_content"
