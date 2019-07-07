@@ -6,9 +6,12 @@ import android.content.Intent;
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.Spinner;
 import android.widget.Toast;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -27,6 +30,7 @@ public class activity_edit extends Fragment {
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    private Spinner edSpinn;
 
 
     @Override
@@ -244,6 +248,35 @@ public class activity_edit extends Fragment {
 
         return myView;
 
+    }
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        edSpinn = (Spinner) getView().findViewById(R.id.user_edspin);
+
+        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.languages));
+        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        edSpinn.setAdapter(myAdapter);
+
+        edSpinn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                switch (position)
+                {
+                    case 0:
+                        break;
+
+                    case 1:
+                        break;
+                    case 2:
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
     }
 
     //sign out method
