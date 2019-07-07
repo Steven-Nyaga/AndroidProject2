@@ -14,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -26,7 +27,13 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
     private Button report, button, finish;
     private GoogleMap mMap;
     private String userid;
-    private String UserID;
+    private String driverid;
+    private Double dlat;
+    private Double ulat;
+    private Double dlng;
+    private Double ulng;
+    MarkerOptions driverlocation, userlocation;
+    Polyline currentPolyline;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
