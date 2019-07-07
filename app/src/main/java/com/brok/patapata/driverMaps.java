@@ -48,7 +48,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
             }
         });
 
-        report = (Button) findViewById(R.id.report_transaction);
+        report = (Button) findViewById(R.id.driver_report_transaction);
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -59,7 +59,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
         });
 
 
-        button = (Button) findViewById(R.id.cancel_transaction);
+        button = (Button) findViewById(R.id.driver_cancel_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
