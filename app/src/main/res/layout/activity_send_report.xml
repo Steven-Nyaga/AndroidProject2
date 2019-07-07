@@ -18,7 +18,7 @@
         android:textSize="24dp" />
 
     <EditText
-        android:id="@+id/report"
+        android:id="@+id/your_report"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Describe Your Problem Here"

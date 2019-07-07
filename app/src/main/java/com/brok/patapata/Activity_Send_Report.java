@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.FirebaseDatabase;
@@ -20,7 +21,8 @@ public class Activity_Send_Report extends AppCompatActivity {
     private FirebaseAuth auth;
     private TextView test;
     private String gotid;
-    String mwisho;
+    private String mwisho;
+    private String input;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,9 +36,11 @@ public class Activity_Send_Report extends AppCompatActivity {
 
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
-        reportvalue= (EditText) findViewById(R.id.report);
-        String input = reportvalue.getText().toString();
-
+        reportvalue= (EditText) findViewById(R.id.your_report);
+     input = reportvalue.getText().toString();
+if(input==null){
+    Toast.makeText(getApplicationContext(), "Input is null!", Toast.LENGTH_SHORT).show();
+}
         test = (TextView) findViewById(R.id.test);
 
         mwisho = "DriverID: " +  gotid  + " UserID: " + currentuser + " " + input;
@@ -47,11 +51,12 @@ public class Activity_Send_Report extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 test.setText(mwisho);
-                /*
-                String report = reportvalue.getText().toString();
-                FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
-                        getInstance().getCurrentUser().getUid()).child("reports").push().setValue(report);
-                */
+
+                //String report = reportvalue.getText().toString();
+                //FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
+                      //  getInstance().getCurrentUser().getUid()).child("reports").push().setValue(mwisho);
+              //  Intent intent = new Intent(Activity_Send_Report.this, driver.class);
+               // startActivity(intent);
             }
         });
 
