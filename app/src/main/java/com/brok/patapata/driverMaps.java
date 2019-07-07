@@ -128,6 +128,36 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                 ulat =dataSnapshot.child("latitude").getValue(Double.class);
                 ulng =dataSnapshot.child("longitude").getValue(Double.class);
 
+                //retrieve driver's location
+                FirebaseDatabase.getInstance().getReference().child("driverdetails").child(driverid).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                        dlat =dataSnapshot.child("latitude").getValue(Double.class);
+                        dlng =dataSnapshot.child("longitude").getValue(Double.class);
+
+
+                        // Add a marker on Driver Location and move the camera
+                        LatLng dlocation = new LatLng(dlat, dlng);
+                        LatLng ulocation = new LatLng(ulat, ulng);
+                        //  mMap.addMarker(new MarkerOptions().position(dlocation).title("You"));
+                        // mMap.moveCamera(CameraUpdateFactory.newLatLng(dlocation));
+
+                        driverlocation = new MarkerOptions().position(dlocation).title("You");
+                        userlocation = new MarkerOptions().position(ulocation).title("Customer");
+
+                        //connecting drver and user via a path
+                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+                        new FetchURL(driverMaps.this).execute(url, "driving");
+
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+
             }
 
             @Override
@@ -136,35 +166,9 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
             }
         });
 
-//retrieve driver's location
-        FirebaseDatabase.getInstance().getReference().child("driverdetails").child(driverid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                dlat =dataSnapshot.child("latitude").getValue(Double.class);
-                dlng =dataSnapshot.child("longitude").getValue(Double.class);
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
-        // Add a marker on Driver Location and move the camera
-        LatLng dlocation = new LatLng(dlat, dlng);
-        LatLng ulocation = new LatLng(ulat, ulng);
-        //  mMap.addMarker(new MarkerOptions().position(dlocation).title("You"));
-        // mMap.moveCamera(CameraUpdateFactory.newLatLng(dlocation));
 
-        driverlocation = new MarkerOptions().position(dlocation).title("You");
-        userlocation = new MarkerOptions().position(ulocation).title("Customer");
-
-        //connecting drver and user via a path
-        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-        new FetchURL(driverMaps.this).execute(url, "driving");
 
     }
 
