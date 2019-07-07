@@ -9,4 +9,31 @@
     android:layout_height="match_parent"
     tools:context=".driverMaps" >
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="bottom">
+        <Button
+            android:id="@+id/driver_finish_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/finish_transaction"
+            android:text="Finish"
+            />
+        <Button
+            android:id="@+id/driver_cancel_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/cancel_transaction"
+            android:text="Cancel"/>
+        <Button
+            android:id="@+id/driver_report_transaction"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/report_transaction"
+            android:text="Report"/>
+
+    </LinearLayout>
+
     </fragment>
