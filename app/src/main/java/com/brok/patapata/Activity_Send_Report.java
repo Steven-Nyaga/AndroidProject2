@@ -54,7 +54,6 @@ public class Activity_Send_Report extends AppCompatActivity {
                 mwisho = "DriverID: " +  gotid  + " UserID: " + currentuser + " " + input;
                 test.setText(mwisho);
 
-                //String report = reportvalue.getText().toString();
                 FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
                        getInstance().getCurrentUser().getUid()).child("reports").push().setValue(mwisho);
                 Intent intent = new Intent(Activity_Send_Report.this, driver.class);
