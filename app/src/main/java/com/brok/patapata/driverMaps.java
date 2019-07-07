@@ -3,7 +3,10 @@ package com.brok.patapata;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.FragmentActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -11,6 +14,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -19,6 +23,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
     private DatabaseReference mReq;
+    private Button report, button, finish;
     private GoogleMap mMap;
     private String userid;
     private String UserID;
@@ -31,6 +36,58 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+
+        userid = getIncomingIntent();
+
+        finish = (Button) findViewById(R.id.driver_finish_transaction);
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(driverMaps.this, driver.class);
+                startActivity(intent);
+            }
+        });
+
+        report = (Button) findViewById(R.id.report_transaction);
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(driverMaps.this, Activity_Send_Report.class);
+                intent.putExtra("User ID", userid);
+                startActivity(intent);
+            }
+        });
+
+
+        button = (Button) findViewById(R.id.cancel_transaction);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mReq = FirebaseDatabase.getInstance().getReference().child("requests");
+                mReq.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            userid = snapshot.child("userid").getValue(String.class);
+                            if(FirebaseAuth.getInstance().getCurrentUser().getUid()==userid){
+                                //push_key=snapshot.getKey();
+                                //mReq.child(push_key).removeValue();
+                                snapshot.getRef().removeValue();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
+                //FirebaseDatabase.getInstance().getReference().child("requests").child(ident).removeValue();
+                Intent intent = new Intent(driverMaps.this, driver.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
 
