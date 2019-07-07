@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener;
 
 public class Activity_User_Confirmpay extends AppCompatActivity {
     private DatabaseReference mReq;
-    private Button report, button;
+    private Button report, button, finish;
     private TextView textView;
     public  String user_id;
     public String push_key;
@@ -35,11 +35,11 @@ public class Activity_User_Confirmpay extends AppCompatActivity {
         final String ident = intent.getStringExtra("ident");
         textView = (TextView)findViewById(R.id.tvMessage);
         textView.setText(ident);
-        Bundle bundle = intent.getExtras();
+  /*    Bundle bundle = intent.getExtras();
         String status = bundle.getString("status");
         Toast toast = Toast.makeText(this, status, Toast.LENGTH_LONG);
         toast.show();
-
+*/
         button = (Button) findViewById(R.id.cancel_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +74,19 @@ public class Activity_User_Confirmpay extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Activity_User_Confirmpay.this, Activity_Send_Report.class);
+                intent.putExtra("ident",ident);
+                Bundle extras = new Bundle();
+                extras.putString("status", "Data Received!");
+                intent.putExtras(extras);
+                startActivity(intent);
+            }
+        });
+
+        finish = (Button) findViewById(R.id.finish_transaction);
+        finish.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Activity_User_Confirmpay.this, activity_mpesa.class);
                 startActivity(intent);
             }
         });

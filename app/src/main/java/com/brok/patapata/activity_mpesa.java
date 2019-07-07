@@ -33,7 +33,7 @@ public class activity_mpesa extends AppCompatActivity {
         meditText = (EditText) findViewById(R.id.mtext);
         mbutton = (Button) findViewById(R.id.mpay);
 
-        daraja = Daraja.with("Uku3wUhDw9z0Otdk2hUAbGZck8ZGILyh", "JDjpQBm5HpYwk38b", new DarajaListener<AccessToken>() {
+        daraja = Daraja.with("cSuIFLeHAnsOFTAVVlQ3Spd5n6J3sEGr", "Q5XTbAsBLAv29SQv", new DarajaListener<AccessToken>() {
             @Override
             public void onResult(@NonNull AccessToken accessToken) {
                 Log.i(activity_mpesa.this.getClass().getSimpleName(), accessToken.getAccess_token());
@@ -55,12 +55,12 @@ public class activity_mpesa extends AppCompatActivity {
                     return;
                 }
                 LNMExpress lnmExpress = new LNMExpress(
-                        "174379",
+                        "600347",
                         "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",  //https://developer.safaricom.co.ke/test_credentials
-                        TransactionType.CustomerPayBillOnline,
+                        TransactionType.CustomerBuyGoodsOnline,
                         "100",
-                        "254712828157",
-                        "174379",
+                        "254708374149",
+                        "600000",
                         phoneNumber,
                         "http://mycallbackurl.com/checkout.php",
                         "001ABC",
