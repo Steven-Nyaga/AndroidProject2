@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="75dp"
-            android:text="Your Driver is this far away"
+            android:text="@string/confirm_distance_message"
             android:textColor="@color/colorAccent"
 
             android:textSize="24dp" />
@@ -45,20 +45,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/finish_transaction"
-            android:text="Finish"
+            android:text="@string/finish_button"
             />
         <Button
             android:id="@+id/cancel_transaction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/cancel_transaction"
-            android:text="Cancel"/>
+            android:text="@string/cancel_button"/>
         <Button
             android:id="@+id/report_transaction"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/report_transaction"
-            android:text="Report"/>
+            android:text="@string/report_button"/>
 
     </LinearLayout>
 

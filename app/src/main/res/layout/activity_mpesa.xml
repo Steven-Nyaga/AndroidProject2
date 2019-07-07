@@ -16,7 +16,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingBottom="75dp"
-            android:text="Entere your Phone Number"
+            android:text="@string/phone_number_prompt"
             android:textColor="@color/colorAccent"
             android:textSize="24dp" />
 
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
-            android:text="Finish"
+            android:text="@string/finish_button"
             />
 
 

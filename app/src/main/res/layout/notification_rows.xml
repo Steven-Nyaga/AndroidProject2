@@ -18,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/question"
-        android:text="Can you deliver the amount of litres shown below?"
+        android:text="@string/notification_prompt"
         android:textColor="@color/text"
         android:textSize="25dp"/>
     <TextView

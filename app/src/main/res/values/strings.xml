@@ -71,6 +71,21 @@
     <string name="snack">Want to purchase?</string>
     <string name="Buy">Buy</string>
     <string name="title_activity_driver_maps">Map</string>
+    <string name="confirm_distance_message">Your Driver is this far away</string>
+    <string name="finish_button">Finish</string>
+    <string name="cancel_button">Cancel</string>
+    <string name="report_button">Report</string>
+    <string name="phone_number_prompt">Entere your Phone Number</string>
+    <string name="send_report_prompt">What seems to be the issue?</string>
+    <string name="send_report_hint">Describe Your Problem Here</string>
+    <string name="submit_button">Submit</string>
+    <string name="login_button">LOGIN</string>
+    <string name="login_text">LOGIN</string>
+    <string name="create_account_text">CREATE ACCOUNT</string>
+    <string name="tile_bar_user_module">User Module</string>
+    <string name="title_driver_module">Driver Module</string>
+    <string name="mainfragment_prompt">How many Litres Required?</string>
+    <string name="notification_prompt">Can you deliver the amount of litres shown below?</string>
 
     <!-- Language options -->
     <string-array name="languages">

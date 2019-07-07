@@ -19,7 +19,7 @@
     android:id="@+id/toolbar"
     android:theme="@style/ThemeOverlay.MaterialComponents.Dark.ActionBar"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:title="Driver Module"
+    app:title="@string/title_driver_module"
     />
 
 
