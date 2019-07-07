@@ -73,11 +73,14 @@ public class Activity_User_Confirmpay extends AppCompatActivity {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+//                Intent intent = new Intent(Activity_User_Confirmpay.this, Activity_Send_Report.class);
+//                intent.putExtra("ident",ident);
+//                Bundle extras = new Bundle();
+//                extras.putString("status", "Data Received!");
+//                intent.putExtras(extras);
+//                startActivity(intent);
                 Intent intent = new Intent(Activity_User_Confirmpay.this, Activity_Send_Report.class);
-                intent.putExtra("ident",ident);
-                Bundle extras = new Bundle();
-                extras.putString("status", "Data Received!");
-                intent.putExtras(extras);
+                intent.putExtra("User ID", ident);
                 startActivity(intent);
             }
         });

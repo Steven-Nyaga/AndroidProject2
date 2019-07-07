@@ -19,6 +19,7 @@ public class Activity_Send_Report extends AppCompatActivity {
     private Button reportB;
     private FirebaseAuth auth;
     private TextView test;
+    private String gotid;
     String mwisho;
 
     @Override
@@ -26,8 +27,10 @@ public class Activity_Send_Report extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_send_report);
 
-        Intent intent = getIntent();
-        String gotid = intent.getStringExtra("ident");
+//        Intent intent = getIntent();
+//        String gotid = intent.getStringExtra("ident");
+        gotid = getIncomingIntent();
+
 
         String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
@@ -53,4 +56,13 @@ public class Activity_Send_Report extends AppCompatActivity {
         });
 
     }
+    private String getIncomingIntent(){
+        if(getIntent().hasExtra("User ID")){
+            String userid = getIntent().getStringExtra("User ID");
+            return userid;
+        }
+
+        return null;
+    }
+
 }
