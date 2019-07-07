@@ -48,7 +48,7 @@ public class activity_mpesa extends AppCompatActivity {
             }
         });
         //Init daraja
-        daraja = Daraja.with("ioXxKqeAUkSyAMKnQQrTchGDM0RAtG5b", "QGtz94gODybXQm8q", new DarajaListener<AccessToken>() {
+        daraja = Daraja.with("cSuIFLeHAnsOFTAVVlQ3Spd5n6J3sEGr", "Q5XTbAsBLAv29SQv", new DarajaListener<AccessToken>() {
             @Override
             public void onResult(@NonNull AccessToken accessToken) {
                 Log.i(activity_mpesa.this.getClass().getSimpleName(),accessToken.getAccess_token());
@@ -72,7 +72,7 @@ public class activity_mpesa extends AppCompatActivity {
                 "bfb279f9aa9bdbcf158e97dd71a467cd2e0c893059b10f78e6b72ada1ed2c919",
                 TransactionType.CustomerBuyGoodsOnline,
                 "50",
-                "254708374149",
+                "254712828157",
                 "174379",
                 phonenumber,
                 "http://mycallbackurl.com/checkout.php",
