@@ -139,7 +139,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
         ulng = 36.8001;
         LatLng ulocation = new LatLng(ulat, ulng);
         userlocation = new MarkerOptions().position(ulocation).title("Customer");
-
+        mMap.addMarker(userlocation);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
@@ -170,11 +170,12 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         str += addressList.get(0).getCountryName();
                         driverlocation = new MarkerOptions().position(dlocation).title(str);
                         //userlocation = new MarkerOptions().position(ulocation).title("Customer");
-              mMap.addMarker(driverlocation);
 
-                    mMap.addMarker(userlocation);
+
+                   // mMap.addMarker(userlocation);
                         String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
                         new FetchURL(driverMaps.this).execute(url, "driving");
+                        mMap.addMarker(driverlocation);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -215,11 +216,13 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         driverlocation = new MarkerOptions().position(dlocation).title(str);
                         //userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
-                        mMap.addMarker(driverlocation);
+
 //
-                        mMap.addMarker(userlocation);
+                        //mMap.addMarker(userlocation);
                         String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
                         new FetchURL(driverMaps.this).execute(url, "driving");
+
+                        mMap.addMarker(driverlocation);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

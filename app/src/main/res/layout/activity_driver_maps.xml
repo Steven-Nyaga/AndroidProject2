@@ -33,7 +33,7 @@
             android:layout_height="wrap_content"
             android:background="@color/report_transaction"
             android:text="@string/report_button"/>
-    
+
     </LinearLayout>
 
     </fragment>
