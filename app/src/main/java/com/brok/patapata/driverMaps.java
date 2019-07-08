@@ -141,9 +141,9 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                     driverlocation = new MarkerOptions().position(dlocation).title(str);
                     userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
-                    String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-                    new FetchURL(driverMaps.this).execute(url, "driving");
                     mMap.addMarker(driverlocation);
+
+                    mMap.addMarker(userlocation);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -183,10 +183,10 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         str += addressList.get(0).getCountryName();
                         driverlocation = new MarkerOptions().position(dlocation).title(str);
                         userlocation = new MarkerOptions().position(ulocation).title("Customer");
-
-                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-                        new FetchURL(driverMaps.this).execute(url, "driving");
                         mMap.addMarker(driverlocation);
+                        mMap.addMarker(userlocation);
+
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -209,7 +209,8 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
             });
         }
 
-
+        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+        new FetchURL(driverMaps.this).execute(url, "driving");
 
 
     }
