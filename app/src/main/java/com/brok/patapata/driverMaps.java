@@ -60,11 +60,6 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        ulat = -1.3087;
-        ulng = 36.8001;
-        LatLng ulocation = new LatLng(ulat, ulng);
-        userlocation = new MarkerOptions().position(ulocation).title("Customer");
-
         userid = getIncomingIntent();
 
         finish = (Button) findViewById(R.id.driver_finish_transaction);
@@ -116,6 +111,36 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
             }
         });
 
+
+
+
+
+    }
+
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        //userid = getIncomingIntent();
+        mMap = googleMap;
+      // mMap.addMarker(driverlocation);
+       //mMap.addMarker(userlocation);
+
+
+        ulat = -1.3087;
+        ulng = 36.8001;
+        LatLng ulocation = new LatLng(ulat, ulng);
+        userlocation = new MarkerOptions().position(ulocation).title("Customer");
+
+
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -130,46 +155,46 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
         //CHECK WHETHER NETWORK PROVIDER ENABLED
         if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
             locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
-            @Override
-            public void onLocationChanged(Location location) {
-                dlat = location.getLatitude();
-                dlng = location.getLongitude();
+                @Override
+                public void onLocationChanged(Location location) {
+                    dlat = location.getLatitude();
+                    dlng = location.getLongitude();
 //                ulat = -1.3087;
 //                ulng = 36.8001;
-               // LatLng ulocation = new LatLng(ulat, ulng);
-                LatLng dlocation = new LatLng(dlat, dlng);
-                Geocoder geocoder = new Geocoder(getApplicationContext());
-                try {
-                    List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
-                    String str = addressList.get(0).getLocality()+",";
-                    str += addressList.get(0).getCountryName();
-                    driverlocation = new MarkerOptions().position(dlocation).title(str);
-                    //userlocation = new MarkerOptions().position(ulocation).title("Customer");
-//                    mMap.addMarker(driverlocation);
-//
-//                    mMap.addMarker(userlocation);
-                    String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-                    new FetchURL(driverMaps.this).execute(url, "driving");
-                } catch (IOException e) {
-                    e.printStackTrace();
+                    // LatLng ulocation = new LatLng(ulat, ulng);
+                    LatLng dlocation = new LatLng(dlat, dlng);
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    try {
+                        List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
+                        String str = addressList.get(0).getLocality()+",";
+                        str += addressList.get(0).getCountryName();
+                        driverlocation = new MarkerOptions().position(dlocation).title(str);
+                        //userlocation = new MarkerOptions().position(ulocation).title("Customer");
+              mMap.addMarker(driverlocation);
+
+                    mMap.addMarker(userlocation);
+                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+                        new FetchURL(driverMaps.this).execute(url, "driving");
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                 }
-            }
 
-            @Override
-            public void onStatusChanged(String s, int i, Bundle bundle) {
+                @Override
+                public void onStatusChanged(String s, int i, Bundle bundle) {
 
-            }
+                }
 
-            @Override
-            public void onProviderEnabled(String s) {
+                @Override
+                public void onProviderEnabled(String s) {
 
-            }
+                }
 
-            @Override
-            public void onProviderDisabled(String s) {
+                @Override
+                public void onProviderDisabled(String s) {
 
-            }
-        });
+                }
+            });
         }
         else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
             locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
@@ -179,7 +204,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                     dlng = location.getLongitude();
 //                    ulat = -1.3087;
 //                    ulng = 36.8001;
-                   // LatLng ulocation = new LatLng(ulat, ulng);
+                    // LatLng ulocation = new LatLng(ulat, ulng);
                     LatLng dlocation = new LatLng(dlat, dlng);
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
                     Geocoder geocoder = new Geocoder(getApplicationContext());
@@ -190,9 +215,9 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         driverlocation = new MarkerOptions().position(dlocation).title(str);
                         //userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
-//                        mMap.addMarker(driverlocation);
+                        mMap.addMarker(driverlocation);
 //
-//                        mMap.addMarker(userlocation);
+                        mMap.addMarker(userlocation);
                         String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
                         new FetchURL(driverMaps.this).execute(url, "driving");
                     } catch (IOException e) {
@@ -217,27 +242,6 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
             });
         }
 
-
-
-
-    }
-
-
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
-    @Override
-    public void onMapReady(GoogleMap googleMap) {
-        //userid = getIncomingIntent();
-        mMap = googleMap;
-       mMap.addMarker(driverlocation);
-       mMap.addMarker(userlocation);
 
 //        driverid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //        //Delete all other requests the driver currently has.
