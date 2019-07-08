@@ -140,10 +140,10 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                     str += addressList.get(0).getCountryName();
                     driverlocation = new MarkerOptions().position(dlocation).title(str);
                     userlocation = new MarkerOptions().position(ulocation).title("Customer");
+//                    mMap.addMarker(driverlocation);
+//
+//                    mMap.addMarker(userlocation);
 
-                    mMap.addMarker(driverlocation);
-
-                    mMap.addMarker(userlocation);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -183,10 +183,10 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         str += addressList.get(0).getCountryName();
                         driverlocation = new MarkerOptions().position(dlocation).title(str);
                         userlocation = new MarkerOptions().position(ulocation).title("Customer");
-                        mMap.addMarker(driverlocation);
-                        mMap.addMarker(userlocation);
 
-
+//                        mMap.addMarker(driverlocation);
+//
+//                        mMap.addMarker(userlocation);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -229,8 +229,8 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
     public void onMapReady(GoogleMap googleMap) {
         //userid = getIncomingIntent();
         mMap = googleMap;
-       // mMap.addMarker(driverlocation);
-      //  mMap.addMarker(userlocation);
+       mMap.addMarker(driverlocation);
+       mMap.addMarker(userlocation);
 
 //        driverid = FirebaseAuth.getInstance().getCurrentUser().getUid();
 //        //Delete all other requests the driver currently has.
