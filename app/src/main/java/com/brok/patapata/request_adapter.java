@@ -55,6 +55,7 @@ public class request_adapter extends RecyclerView.Adapter<request_adapter.MyView
             @Override
             public void onDoubleClick() {
                 //Toast.makeText(context, "Yes", Toast.LENGTH_SHORT).show();
+
                 Intent intent = new Intent(context, driverMaps.class);
                 intent.putExtra("User ID", requests.get(position).getUserid());
                 context.startActivity(intent);
