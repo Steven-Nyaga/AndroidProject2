@@ -15,9 +15,21 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.brok.patapata.directionhelpers.FetchURL;
 import com.brok.patapata.directionhelpers.TaskLoadedCallback;
+import com.directions.route.AbstractRouting;
+import com.directions.route.Route;
+import com.directions.route.RouteException;
+import com.directions.route.Routing;
+import com.directions.route.RoutingListener;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -34,9 +46,10 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
-public class driverMaps extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback {
+public class driverMaps extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback, RoutingListener {
     //public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
     private DatabaseReference mReq;
     private Button report, button, finish;
@@ -47,9 +60,17 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
     private Double ulat;
     private Double dlng;
     private Double ulng;
+
+    Location locationResult;
+    GoogleApiClient mGoogleApiClient;
+    LocationRequest mLocationRequest;
+    private FusedLocationProviderClient fusedLocationClient;
+    LatLng dlocation, ulocation;
     MarkerOptions driverlocation, userlocation;
     Polyline currentPolyline;
     LocationManager locationManager;
+    private List<Polyline> polylines;
+    private static final int[] COLORS = new int[]{R.color.primary_dark_material_light};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +81,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-
+        polylines = new ArrayList<>();
         driverid = FirebaseAuth.getInstance().getCurrentUser().getUid();
         //Delete all other requests the driver currently has.
         FirebaseDatabase.getInstance().getReference().child("requests").addListenerForSingleValueEvent(new ValueEventListener() {
@@ -108,6 +129,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                erasePolylines();
                 mReq = FirebaseDatabase.getInstance().getReference().child("requests");
                 mReq.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -159,74 +181,51 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
         ulat = -1.3087;
         ulng = 36.8001;
 
-        LatLng dlocation = new LatLng(dlat, dlng);
-        LatLng ulocation = new LatLng(ulat, ulng);
+         dlocation = new LatLng(dlat, dlng);
+         ulocation = new LatLng(ulat, ulng);
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
         driverlocation = new MarkerOptions().position(dlocation).title("You");
         userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
-        //connecting drver and user via a path
-        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-        new FetchURL(driverMaps.this).execute(url, "driving");
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+            return;
+        }
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        mLocationRequest= new LocationRequest();
+        mLocationRequest.setInterval(5000);
+        mLocationRequest.setFastestInterval(2000);
+        mLocationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+        fusedLocationClient.requestLocationUpdates(mLocationRequest, new LocationCallback() {
+            @Override
+            public void onLocationResult(LocationResult locationResult) {
+                super.onLocationResult(locationResult);
+                Double latitude = locationResult.getLastLocation().getLatitude();
+                Double longitude = locationResult.getLastLocation().getLongitude();
+                getRouteToMarker(ulocation, locationResult);
+
+
+
+            }
+        }, getMainLooper());
 
 
         mMap.addMarker(driverlocation);
         mMap.addMarker(userlocation);
 
-//        FirebaseDatabase.getInstance().getReference().child("users").child(userid).addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                ulat =dataSnapshot.child("latitude").getValue(Double.class);
-//                ulng =dataSnapshot.child("longitude").getValue(Double.class);
+
+    }
+
+    private void getRouteToMarker(LatLng ulocation, LocationResult locationResult) {
 
 
-//                //retrieve driver's location
-//                FirebaseDatabase.getInstance().getReference().child("driverdetails").child(driverid).addValueEventListener(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//
-//                      //  dlat =dataSnapshot.child("latitude").getValue(Double.class);
-//                       // dlng =dataSnapshot.child("longitude").getValue(Double.class);
-////dlat = -1.3122795;
-////dlng = 36.812145;
-////                        ulat = -1.3087;
-////                        ulng = 36.8001;
-//                        // Add a marker on Driver Location and move the camera
-//                        LatLng dlocation = new LatLng(dlat, dlng);
-//                        LatLng ulocation = new LatLng(ulat, ulng);
-//                        //  mMap.addMarker(new MarkerOptions().position(dlocation).title("You"));
-//                        // mMap.moveCamera(CameraUpdateFactory.newLatLng(dlocation));
-//                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
-//                        driverlocation = new MarkerOptions().position(dlocation).title("You");
-//                        userlocation = new MarkerOptions().position(ulocation).title("Customer");
-//
-//                        //connecting drver and user via a path
-//                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-//                        new FetchURL(driverMaps.this).execute(url, "driving");
-//
-//
-//                        mMap.addMarker(driverlocation);
-//                        mMap.addMarker(userlocation);
-//
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//                    }
-//                });
-//
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) {
-//
-//            }
-//        });
-
-
-
+        Routing routing = new Routing.Builder()
+                .travelMode(AbstractRouting.TravelMode.DRIVING)
+                .withListener(this)
+                .alternativeRoutes(false)
+                .waypoints(new LatLng(locationResult.getLastLocation().getLatitude(), locationResult.getLastLocation().getLongitude()), ulocation)
+                .build();
+        routing.execute();
     }
 
 
@@ -260,5 +259,56 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
 if(currentPolyline!=null)
     currentPolyline.remove();
 currentPolyline = mMap.addPolyline((PolylineOptions)values[0]);
+    }
+
+    @Override
+    public void onRoutingFailure(RouteException e) {
+        if(e != null) {
+            Toast.makeText(this, "Error: " + e.getMessage(), Toast.LENGTH_LONG).show();
+        }else {
+            Toast.makeText(this, "Something went wrong, Try again", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRoutingStart() {
+
+    }
+
+    @Override
+    public void onRoutingSuccess(ArrayList<Route> route, int shortestRouteIndex) {
+        if(polylines.size()>0) {
+            for (Polyline poly : polylines) {
+                poly.remove();
+            }
+        }
+
+        polylines = new ArrayList<>();
+        //add route(s) to the map.
+        for (int i = 0; i <route.size(); i++) {
+
+            //In case of more than 5 alternative routes
+            int colorIndex = i % COLORS.length;
+
+            PolylineOptions polyOptions = new PolylineOptions();
+            polyOptions.color(getResources().getColor(COLORS[colorIndex]));
+            polyOptions.width(10 + i * 3);
+            polyOptions.addAll(route.get(i).getPoints());
+            Polyline polyline = mMap.addPolyline(polyOptions);
+            polylines.add(polyline);
+
+            Toast.makeText(getApplicationContext(),"Route "+ (i+1) +": distance - "+ route.get(i).getDistanceValue()+": duration - "+ route.get(i).getDurationValue(),Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRoutingCancelled() {
+
+    }
+    public void erasePolylines(){
+        for (Polyline line : polylines ){
+            line.remove();
+        }
+        polylines.clear();
     }
 }
