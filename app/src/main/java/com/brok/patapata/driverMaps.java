@@ -169,9 +169,10 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
 
-                        dlat =dataSnapshot.child("latitude").getValue(Double.class);
-                        dlng =dataSnapshot.child("longitude").getValue(Double.class);
-
+                      //  dlat =dataSnapshot.child("latitude").getValue(Double.class);
+                       // dlng =dataSnapshot.child("longitude").getValue(Double.class);
+dlat = -1.3122795;
+dlng = 36.812145;
                         ulat = -1.3087;
                         ulng = 36.8001;
                         // Add a marker on Driver Location and move the camera
