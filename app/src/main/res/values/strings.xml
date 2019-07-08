@@ -86,6 +86,9 @@
     <string name="title_driver_module">Driver Module</string>
     <string name="mainfragment_prompt">How many Litres Required?</string>
     <string name="notification_prompt">Can you deliver the amount of litres shown below?</string>
+    <string name="change_language">Change to Kiswahili</string>
+    <string name="hello_world">Channge Language</string>
+    <string name="btn_swa">Kiswahili</string>
 
     <!-- Language options -->
     <string-array name="languages">

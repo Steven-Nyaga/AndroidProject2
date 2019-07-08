@@ -87,6 +87,9 @@
     <string name="title_driver_module">Moduli ya dereva</string>
     <string name="mainfragment_prompt">Ni lita ngapi zinahitajika?</string>
     <string name="notification_prompt">Je, unaweza kutoa kiasi cha lita zilizoonyeshwa hapa chini?</string>
+    <string name="change_language">Badilisha Iwe Kiingereza</string>
+    <string name="hello_world">Badilisha Luga</string>
+    <string name="btn_swa">Kiingereza</string>
 
     <!-- Language options -->
     <string-array name="languages">

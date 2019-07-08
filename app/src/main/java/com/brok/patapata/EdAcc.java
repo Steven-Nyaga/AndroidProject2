@@ -1,9 +1,16 @@
 package com.brok.patapata;
 
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.content.Intent;
 import androidx.annotation.NonNull;
+
+import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,20 +26,23 @@ import com.google.firebase.auth.FirebaseUser;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import com.brok.patapata.utils.LocaleHelper;
 
 import java.util.Locale;
+
 
 
 public class EdAcc extends Fragment {
 
     private Button btnChangeEmail, btnChangePassword, btnSendResetEmail, btnRemoveUser,
-            changeEmail, changePassword, sendEmail, remove, signOut;
+            changeEmail, changePassword, sendEmail, remove,change_language , signOut;
     private Spinner edSpinner;
 
     private EditText oldEmail, newEmail, password, newPassword;
     private ProgressBar progressBar;
     private FirebaseAuth.AuthStateListener authListener;
     private FirebaseAuth auth;
+    private String mLanguageCode = "fr";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,6 +51,8 @@ public class EdAcc extends Fragment {
     }
 
     public void onViewCreated(View view, Bundle savedInstanceState){
+
+        //Loadlocal();
 
         //get firebase auth instance
         auth = FirebaseAuth.getInstance();
@@ -72,6 +84,7 @@ public class EdAcc extends Fragment {
         changePassword = (Button) getView().findViewById(R.id.changePass);
         sendEmail = (Button) getView().findViewById(R.id.send);
         remove = (Button) getView().findViewById(R.id.remove);
+        change_language = (Button) getView().findViewById(R.id.change_lang);
         signOut = (Button) getView().findViewById(R.id.sign_out);
 
         oldEmail = (EditText) getView().findViewById(R.id.old_email);
@@ -79,33 +92,18 @@ public class EdAcc extends Fragment {
         password = (EditText) getView().findViewById(R.id.password);
         newPassword = (EditText) getView().findViewById(R.id.newPassword);
 
-        edSpinner = (Spinner) getView().findViewById(R.id.edspin);
-        ArrayAdapter<String> myAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, getResources().getStringArray(R.array.languages));
-        myAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        edSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        // the button for chnge lan
+        change_language.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                switch (position)
-                {
-                    case 0:
-                        break;
-
-                    case 1:
-                        setLocale("en");
-                        break;
-                    case 2:
-                        setLocale("sw-rKE");
-                        break;
-
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                //showChangeLanguageDialogue();
+                /*
+                LocaleHelper.setLocale(getActivity(), mLanguageCode);
+                getActivity().recreate();
+                */
+                startActivity(new Intent(getActivity(), language_activity.class));
             }
         });
-        edSpinner.setAdapter(myAdapter);
 
         oldEmail.setVisibility(View.GONE);
         newEmail.setVisibility(View.GONE);
@@ -279,13 +277,46 @@ public class EdAcc extends Fragment {
 
     }
 
+    private void showChangeLanguageDialogue() {
+        final String [] listitems = {"English", "Kiswahili"};
+        AlertDialog.Builder mbuilder = new AlertDialog.Builder(getActivity());
+        mbuilder.setTitle("Choose a Language");
+        mbuilder.setSingleChoiceItems(listitems, -1, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                if (i==0){
+                    setLocale("en");
+                    getActivity().recreate();
+                }
+                else if (i==1){
+                    setLocale("sw-rKE");
+                    getActivity().recreate();
+                }
+
+                dialog.dismiss();
+            }
+        });
+        AlertDialog mDialog = mbuilder.create();
+        mDialog.show();
+    }
+
     private void setLocale(String lang) {
-        /*
+
         Locale locale = new Locale(lang);
         Locale.setDefault(locale);
         Configuration config = new Configuration();
         config.locale = locale;
-*/
+        getContext().getResources().updateConfiguration(config, getContext().getResources().getDisplayMetrics());
+        SharedPreferences.Editor editor  =  getActivity().getSharedPreferences("settings", Context.MODE_PRIVATE).edit();
+        editor.putString("My_Lang",lang);
+        editor.apply();
+
+    }
+
+    public void Loadlocal(){
+        SharedPreferences pref = getActivity().getSharedPreferences("settings", Activity.MODE_PRIVATE);
+        String language = pref.getString("My_Lang","");
+        setLocale(language);
     }
 
 

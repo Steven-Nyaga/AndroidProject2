@@ -138,11 +138,18 @@
         android:layout_marginTop="16dp"
         android:text="@string/remove_user"
         android:textStyle="bold" />
-    <Spinner
-        android:id="@+id/edspin"
+    <Button
+        android:id="@+id/change_lang"
+        style="?android:textAppearanceSmall"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingBottom="50dp"/>
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="9dp"
+        android:layout_marginTop="16dp"
+        android:background="@color/colorAccent"
+        android:text="@string/change_language"
+        android:textColor="@color/text"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/sign_out"
