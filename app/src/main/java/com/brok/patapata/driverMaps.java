@@ -60,6 +60,11 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
+        ulat = -1.3087;
+        ulng = 36.8001;
+        LatLng ulocation = new LatLng(ulat, ulng);
+        userlocation = new MarkerOptions().position(ulocation).title("Customer");
+
         userid = getIncomingIntent();
 
         finish = (Button) findViewById(R.id.driver_finish_transaction);
@@ -129,9 +134,9 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
             public void onLocationChanged(Location location) {
                 dlat = location.getLatitude();
                 dlng = location.getLongitude();
-                ulat = -1.3087;
-                ulng = 36.8001;
-                LatLng ulocation = new LatLng(ulat, ulng);
+//                ulat = -1.3087;
+//                ulng = 36.8001;
+               // LatLng ulocation = new LatLng(ulat, ulng);
                 LatLng dlocation = new LatLng(dlat, dlng);
                 Geocoder geocoder = new Geocoder(getApplicationContext());
                 try {
@@ -139,7 +144,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                     String str = addressList.get(0).getLocality()+",";
                     str += addressList.get(0).getCountryName();
                     driverlocation = new MarkerOptions().position(dlocation).title(str);
-                    userlocation = new MarkerOptions().position(ulocation).title("Customer");
+                    //userlocation = new MarkerOptions().position(ulocation).title("Customer");
 //                    mMap.addMarker(driverlocation);
 //
 //                    mMap.addMarker(userlocation);
@@ -171,9 +176,9 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                 public void onLocationChanged(Location location) {
                     dlat = location.getLatitude();
                     dlng = location.getLongitude();
-                    ulat = -1.3087;
-                    ulng = 36.8001;
-                    LatLng ulocation = new LatLng(ulat, ulng);
+//                    ulat = -1.3087;
+//                    ulng = 36.8001;
+                   // LatLng ulocation = new LatLng(ulat, ulng);
                     LatLng dlocation = new LatLng(dlat, dlng);
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
                     Geocoder geocoder = new Geocoder(getApplicationContext());
@@ -182,7 +187,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         String str = addressList.get(0).getLocality()+",";
                         str += addressList.get(0).getCountryName();
                         driverlocation = new MarkerOptions().position(dlocation).title(str);
-                        userlocation = new MarkerOptions().position(ulocation).title("Customer");
+                        //userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
 //                        mMap.addMarker(driverlocation);
 //
