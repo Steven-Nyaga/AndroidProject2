@@ -148,7 +148,8 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
 //                    mMap.addMarker(driverlocation);
 //
 //                    mMap.addMarker(userlocation);
-
+                    String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+                    new FetchURL(driverMaps.this).execute(url, "driving");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -192,6 +193,8 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
 //                        mMap.addMarker(driverlocation);
 //
 //                        mMap.addMarker(userlocation);
+                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+                        new FetchURL(driverMaps.this).execute(url, "driving");
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -214,8 +217,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
             });
         }
 
-        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-        new FetchURL(driverMaps.this).execute(url, "driving");
+
 
 
     }
