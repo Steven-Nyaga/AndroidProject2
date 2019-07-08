@@ -1,7 +1,14 @@
 package com.brok.patapata;
 
+import android.Manifest;
 import android.content.Intent;
 import androidx.annotation.NonNull;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationCallback;
+import com.google.android.gms.location.LocationRequest;
+import com.google.android.gms.location.LocationResult;
+import com.google.android.gms.location.LocationServices;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -14,6 +21,8 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.view.MenuItem;
@@ -24,6 +33,9 @@ import android.widget.TextView;
 
 public class activity_user extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawer;
+    private FirebaseAuth auth;
+    private FusedLocationProviderClient fusedLocationClient;
+    private LocationRequest locationRequest;
     DatabaseReference Users;
     private String user_email;
     private TextView  cUser;
@@ -31,7 +43,7 @@ public class activity_user extends AppCompatActivity implements NavigationView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user);
-
+        auth = FirebaseAuth.getInstance();
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -63,6 +75,38 @@ public class activity_user extends AppCompatActivity implements NavigationView.O
 
             }
         });
+
+
+        if (auth.getCurrentUser() != null) {
+
+            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+
+                return;
+            }
+            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+            locationRequest = new LocationRequest();
+            locationRequest.setInterval(5000);
+            locationRequest.setFastestInterval(2000);
+            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+            fusedLocationClient.requestLocationUpdates(locationRequest, new LocationCallback() {
+                @Override
+                public void onLocationResult(LocationResult locationResult) {
+                    super.onLocationResult(locationResult);
+                    Double latitude = locationResult.getLastLocation().getLatitude();
+                    Double longitude = locationResult.getLastLocation().getLongitude();
+                    if (latitude != null&&longitude!=null&&auth.getCurrentUser() != null){
+
+                        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
+                                getInstance().getCurrentUser().getUid()).child("latitude").setValue(latitude);
+                        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
+                                getInstance().getCurrentUser().getUid()).child("longitude").setValue(longitude);
+
+
+                    }
+                }
+            }, getMainLooper());
+
+        }
 
     }
 
