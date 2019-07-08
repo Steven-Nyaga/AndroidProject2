@@ -163,22 +163,30 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
 //                ulng = 36.8001;
                     // LatLng ulocation = new LatLng(ulat, ulng);
                     LatLng dlocation = new LatLng(dlat, dlng);
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    try {
-                        List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
-                        String str = addressList.get(0).getLocality()+",";
-                        str += addressList.get(0).getCountryName();
-                        driverlocation = new MarkerOptions().position(dlocation).title(str);
-                        //userlocation = new MarkerOptions().position(ulocation).title("Customer");
+                   // Geocoder geocoder = new Geocoder(getApplicationContext());
+                    driverlocation = new MarkerOptions().position(dlocation).title("you");
+                    //userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
 
-                   // mMap.addMarker(userlocation);
-                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-                        new FetchURL(driverMaps.this).execute(url, "driving");
-                        mMap.addMarker(driverlocation);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    // mMap.addMarker(userlocation);
+                    String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+                    new FetchURL(driverMaps.this).execute(url, "driving");
+                    mMap.addMarker(driverlocation);
+//                    try {
+//                        List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
+//                        String str = addressList.get(0).getLocality()+",";
+//                        str += addressList.get(0).getCountryName();
+//                        driverlocation = new MarkerOptions().position(dlocation).title(str);
+//                        //userlocation = new MarkerOptions().position(ulocation).title("Customer");
+//
+//
+//                   // mMap.addMarker(userlocation);
+//                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+//                        new FetchURL(driverMaps.this).execute(url, "driving");
+//                        mMap.addMarker(driverlocation);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
                 @Override
@@ -208,24 +216,34 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                     // LatLng ulocation = new LatLng(ulat, ulng);
                     LatLng dlocation = new LatLng(dlat, dlng);
                     mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
-                    Geocoder geocoder = new Geocoder(getApplicationContext());
-                    try {
-                        List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
-                        String str = addressList.get(0).getLocality()+",";
-                        str += addressList.get(0).getCountryName();
-                        driverlocation = new MarkerOptions().position(dlocation).title(str);
-                        //userlocation = new MarkerOptions().position(ulocation).title("Customer");
+                    driverlocation = new MarkerOptions().position(dlocation).title("you");
+                    //userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
 
 //
-                        //mMap.addMarker(userlocation);
-                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-                        new FetchURL(driverMaps.this).execute(url, "driving");
+                    //mMap.addMarker(userlocation);
+                    String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+                    new FetchURL(driverMaps.this).execute(url, "driving");
 
-                        mMap.addMarker(driverlocation);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    mMap.addMarker(driverlocation);
+                    //Geocoder geocoder = new Geocoder(getApplicationContext());
+//                    try {
+//                        List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
+//                        String str = addressList.get(0).getLocality()+",";
+//                        str += addressList.get(0).getCountryName();
+//                        driverlocation = new MarkerOptions().position(dlocation).title(str);
+//                        //userlocation = new MarkerOptions().position(ulocation).title("Customer");
+//
+//
+////
+//                        //mMap.addMarker(userlocation);
+//                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+//                        new FetchURL(driverMaps.this).execute(url, "driving");
+//
+//                        mMap.addMarker(driverlocation);
+//                    } catch (IOException e) {
+//                        e.printStackTrace();
+//                    }
                 }
 
                 @Override
