@@ -173,8 +173,6 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
         mMap.addMarker(driverlocation);
         mMap.addMarker(userlocation);
 
-
-//retrive user's location
 //        FirebaseDatabase.getInstance().getReference().child("users").child(userid).addValueEventListener(new ValueEventListener() {
 //            @Override
 //            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {

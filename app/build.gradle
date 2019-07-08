@@ -48,7 +48,8 @@ dependencies {
     implementation 'com.google.android.gms:play-services-location:15.0.0'
     implementation 'com.nabinbhandari.android:permissions:3.8'
     implementation 'com.google.firebase:firebase-firestore:20.1.0'
-
+    
+    implementation 'com.github.jd-alexander:library:1.1.0'
     implementation 'com.androidstudy:daraja:1.0.2'
 }
 apply plugin: 'com.google.gms.google-services'
