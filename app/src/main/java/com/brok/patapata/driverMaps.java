@@ -164,7 +164,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         LatLng ulocation = new LatLng(ulat, ulng);
                         //  mMap.addMarker(new MarkerOptions().position(dlocation).title("You"));
                         // mMap.moveCamera(CameraUpdateFactory.newLatLng(dlocation));
-
+                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
                         driverlocation = new MarkerOptions().position(dlocation).title("You");
                         userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
