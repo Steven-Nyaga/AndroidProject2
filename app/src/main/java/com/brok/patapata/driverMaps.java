@@ -175,6 +175,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                     ulng = 36.8001;
                     LatLng ulocation = new LatLng(ulat, ulng);
                     LatLng dlocation = new LatLng(dlat, dlng);
+                    mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
