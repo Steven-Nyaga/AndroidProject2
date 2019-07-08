@@ -4,7 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentActivity;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,8 +32,12 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.io.IOException;
+import java.util.List;
+
 public class driverMaps extends FragmentActivity implements OnMapReadyCallback, TaskLoadedCallback {
-//public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
+    //public class driverMaps extends FragmentActivity implements OnMapReadyCallback {
     private DatabaseReference mReq;
     private Button report, button, finish;
     private GoogleMap mMap;
@@ -38,6 +49,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
     private Double ulng;
     MarkerOptions driverlocation, userlocation;
     Polyline currentPolyline;
+    LocationManager locationManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,7 +92,7 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             userid = snapshot.child("userid").getValue(String.class);
-                            if(FirebaseAuth.getInstance().getCurrentUser().getUid()==userid){
+                            if (FirebaseAuth.getInstance().getCurrentUser().getUid() == userid) {
                                 //push_key=snapshot.getKey();
                                 //mReq.child(push_key).removeValue();
                                 snapshot.getRef().removeValue();
@@ -99,7 +111,102 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
             }
         });
 
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    Activity#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for Activity#requestPermissions for more details.
+            return;
+        }
+        //CHECK WHETHER NETWORK PROVIDER ENABLED
+        if(locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)){
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                dlat = location.getLatitude();
+                dlng = location.getLongitude();
+                ulat = -1.3087;
+                ulng = 36.8001;
+                LatLng ulocation = new LatLng(ulat, ulng);
+                LatLng dlocation = new LatLng(dlat, dlng);
+                Geocoder geocoder = new Geocoder(getApplicationContext());
+                try {
+                    List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
+                    String str = addressList.get(0).getLocality()+",";
+                    str += addressList.get(0).getCountryName();
+                    driverlocation = new MarkerOptions().position(dlocation).title(str);
+                    userlocation = new MarkerOptions().position(ulocation).title("Customer");
 
+                    String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+                    new FetchURL(driverMaps.this).execute(url, "driving");
+                    mMap.addMarker(driverlocation);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        });
+        }
+        else if (locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)){
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    dlat = location.getLatitude();
+                    dlng = location.getLongitude();
+                    ulat = -1.3087;
+                    ulng = 36.8001;
+                    LatLng ulocation = new LatLng(ulat, ulng);
+                    LatLng dlocation = new LatLng(dlat, dlng);
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    try {
+                        List<Address> addressList = geocoder.getFromLocation(dlat , dlng , 1);
+                        String str = addressList.get(0).getLocality()+",";
+                        str += addressList.get(0).getCountryName();
+                        driverlocation = new MarkerOptions().position(dlocation).title(str);
+                        userlocation = new MarkerOptions().position(ulocation).title("Customer");
+
+                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+                        new FetchURL(driverMaps.this).execute(url, "driving");
+                        mMap.addMarker(driverlocation);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String s) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String s) {
+
+                }
+            });
+        }
 
 
 
@@ -118,79 +225,81 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        userid = getIncomingIntent();
+        //userid = getIncomingIntent();
         mMap = googleMap;
+       // mMap.addMarker(driverlocation);
+      //  mMap.addMarker(userlocation);
 
-        driverid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        //Delete all other requests the driver currently has.
-        FirebaseDatabase.getInstance().getReference().child("requests").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String driver_id = snapshot.child("driverid").getValue(String.class);
-                    if(driver_id==driverid) {
-
-                        snapshot.getRef().removeValue();
-                    }
-
-                }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-
-//retrive user's location
-        FirebaseDatabase.getInstance().getReference().child("users").child(userid).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                ulat =dataSnapshot.child("latitude").getValue(Double.class);
-                ulng =dataSnapshot.child("longitude").getValue(Double.class);
-
-                //retrieve driver's location
-                FirebaseDatabase.getInstance().getReference().child("driverdetails").child(driverid).addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                        dlat =dataSnapshot.child("latitude").getValue(Double.class);
-                        dlng =dataSnapshot.child("longitude").getValue(Double.class);
-
-
-                        // Add a marker on Driver Location and move the camera
-                        LatLng dlocation = new LatLng(dlat, dlng);
-                        LatLng ulocation = new LatLng(ulat, ulng);
-                        //  mMap.addMarker(new MarkerOptions().position(dlocation).title("You"));
-                        // mMap.moveCamera(CameraUpdateFactory.newLatLng(dlocation));
-                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
-                        driverlocation = new MarkerOptions().position(dlocation).title("You");
-                        userlocation = new MarkerOptions().position(ulocation).title("Customer");
-
-                        //connecting drver and user via a path
-                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
-                        new FetchURL(driverMaps.this).execute(url, "driving");
-
-
-                        mMap.addMarker(driverlocation);
-                        mMap.addMarker(userlocation);
-
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
+//        driverid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+//        //Delete all other requests the driver currently has.
+//        FirebaseDatabase.getInstance().getReference().child("requests").addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    String driver_id = snapshot.child("driverid").getValue(String.class);
+//                    if(driver_id==driverid) {
+//
+//                        snapshot.getRef().removeValue();
+//                    }
+//
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
+//
+////retrive user's location
+//        FirebaseDatabase.getInstance().getReference().child("users").child(userid).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                ulat =dataSnapshot.child("latitude").getValue(Double.class);
+//                ulng =dataSnapshot.child("longitude").getValue(Double.class);
+//
+//                //retrieve driver's location
+//                FirebaseDatabase.getInstance().getReference().child("driverdetails").child(driverid).addValueEventListener(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//
+//                        dlat =dataSnapshot.child("latitude").getValue(Double.class);
+//                        dlng =dataSnapshot.child("longitude").getValue(Double.class);
+//
+//
+//                        // Add a marker on Driver Location and move the camera
+//                        LatLng dlocation = new LatLng(dlat, dlng);
+//                        LatLng ulocation = new LatLng(ulat, ulng);
+//                        //  mMap.addMarker(new MarkerOptions().position(dlocation).title("You"));
+//                        // mMap.moveCamera(CameraUpdateFactory.newLatLng(dlocation));
+//                        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(dlocation, 15));
+//                        driverlocation = new MarkerOptions().position(dlocation).title("You");
+//                        userlocation = new MarkerOptions().position(ulocation).title("Customer");
+//
+//                        //connecting drver and user via a path
+//                        String url = getUrl(driverlocation.getPosition(), userlocation.getPosition(), "driving");
+//                        new FetchURL(driverMaps.this).execute(url, "driving");
+//
+//
+//                        mMap.addMarker(driverlocation);
+//                        mMap.addMarker(userlocation);
+//
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//                    }
+//                });
+//
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//            }
+//        });
 
 
 
