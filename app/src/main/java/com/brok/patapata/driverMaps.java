@@ -151,20 +151,8 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
      */
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        //userid = getIncomingIntent();
+        userid = getIncomingIntent();
         mMap = googleMap;
-      // mMap.addMarker(driverlocation);
-       //mMap.addMarker(userlocation);
-
-
-        ulat = -1.3087;
-        ulng = 36.8001;
-        LatLng ulocation = new LatLng(ulat, ulng);
-        userlocation = new MarkerOptions().position(ulocation).title("Customer");
-        mMap.addMarker(userlocation);
-
-
-
 
 //retrive user's location
         FirebaseDatabase.getInstance().getReference().child("users").child(userid).addValueEventListener(new ValueEventListener() {
@@ -174,6 +162,8 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                 ulat =dataSnapshot.child("latitude").getValue(Double.class);
                 ulng =dataSnapshot.child("longitude").getValue(Double.class);
 
+
+
                 //retrieve driver's location
                 FirebaseDatabase.getInstance().getReference().child("driverdetails").child(driverid).addValueEventListener(new ValueEventListener() {
                     @Override
@@ -182,7 +172,8 @@ public class driverMaps extends FragmentActivity implements OnMapReadyCallback, 
                         dlat =dataSnapshot.child("latitude").getValue(Double.class);
                         dlng =dataSnapshot.child("longitude").getValue(Double.class);
 
-
+                        ulat = -1.3087;
+                        ulng = 36.8001;
                         // Add a marker on Driver Location and move the camera
                         LatLng dlocation = new LatLng(dlat, dlng);
                         LatLng ulocation = new LatLng(ulat, ulng);
