@@ -32,12 +32,12 @@
         android:textSize="20dp"/>
 
     <TextView
-      android:visibility="gone"
+      android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/id"
         android:textAlignment="center"
-        android:text="Litres"
+        android:text="uid"
         android:textColor="@color/text"
         android:textSize="20dp"
         />

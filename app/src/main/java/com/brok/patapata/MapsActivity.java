@@ -150,6 +150,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnMarkerClickListener(this);
+        mUsers = FirebaseDatabase.getInstance().getReference().child("driverdetails");
         mUsers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -185,11 +186,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 mDatabase.child(pushid).child("latitude").setValue(lat);
                                 mDatabase.child(pushid).child("longitude").setValue(lng);
                                 mDatabase.child(pushid).child("litres").setValue(litres);
+
                                 Intent intent = new Intent(MapsActivity.this, Activity_User_Confirmpay.class);
                                 intent.putExtra("ident",ident);
-                                Bundle extras = new Bundle();
-                                extras.putString("status", "Data Received!");
-                                intent.putExtras(extras);
                                 startActivity(intent);
                                 }
 

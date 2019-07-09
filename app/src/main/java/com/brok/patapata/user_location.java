@@ -40,10 +40,10 @@ public class user_location extends AppCompatActivity {
        // label2 = (TextView)findViewById(R.id.label2);
         location = (TextView)findViewById(R.id.user_location);
 
-
-user_id= getTheIntent();
+        Intent intent = getIntent();
+user_id= intent.getStringExtra("User ID");;
         Log.d("userid", user_id);
-if(user_id!=null) {
+
 
     FirebaseDatabase.getInstance().getReference().child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
@@ -67,9 +67,7 @@ if(user_id!=null) {
 
         }
     });
-}
-else
-{ Toast.makeText(getApplicationContext(), "user id specified!", Toast.LENGTH_SHORT).show();}
+
 
 
         driver_id =FirebaseAuth.getInstance().getCurrentUser().getUid();

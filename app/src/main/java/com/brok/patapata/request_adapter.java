@@ -51,6 +51,7 @@ public class request_adapter extends RecyclerView.Adapter<request_adapter.MyView
     public void onBindViewHolder(@NonNull MyViewHolder holder, final int position) {
         holder.litres.setText(requests.get(position).getLitres());
         holder.Userid.setText(requests.get(position).getUserid());
+
         holder.parentLayout.setOnClickListener(new DoubleClickListener() {
             @Override
             public void onDoubleClick() {
@@ -63,6 +64,9 @@ public class request_adapter extends RecyclerView.Adapter<request_adapter.MyView
                             String user_id = snapshot.child("userid").getValue(String.class);
                             if (user_id == requests.get(position).getUserid()) {
                                 FirebaseDatabase.getInstance().getReference().child("requests").removeValue();
+                                Intent intent = new Intent(context, user_location.class);
+                                intent.putExtra("User ID", user_id);
+                                context.startActivity(intent);
                             }
                         }
                     }
@@ -72,9 +76,7 @@ public class request_adapter extends RecyclerView.Adapter<request_adapter.MyView
 
                     }
                 });
-                Intent intent = new Intent(context, user_location.class);
-                intent.putExtra("User ID", requests.get(position).getUserid());
-                context.startActivity(intent);
+
             }
         });
 
