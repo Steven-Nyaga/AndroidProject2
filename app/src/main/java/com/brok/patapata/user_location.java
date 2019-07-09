@@ -41,7 +41,7 @@ public class user_location extends AppCompatActivity {
 
 
 user_id= getTheIntent();
-if(user_id!=null) {
+if(user_id==null) {
 
     FirebaseDatabase.getInstance().getReference("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
@@ -66,7 +66,7 @@ if(user_id!=null) {
     });
 }
 else
-    Toast.makeText(getApplicationContext(), "no user id specified!", Toast.LENGTH_SHORT).show();
+    Toast.makeText(getApplicationContext(), "user id specified!", Toast.LENGTH_SHORT).show();
 
 
         driver_id =FirebaseAuth.getInstance().getCurrentUser().getUid();
