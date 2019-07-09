@@ -58,11 +58,11 @@ public class YourRequests extends Fragment {
                     Log.d("confirm driver id", cdriverid);
                     POJO_requests requests  = dataSnapshot1.getValue(POJO_requests.class);
                     //problem code
-                 //   if(cdriverid!=driverid){
+                    if(cdriverid!=driverid){
 
 
                         list.add(requests);
-                 //  }
+                   }
                     //POJO_requests requests  = new POJO_requests(dataSnapshot1.child("").getValue(POJO_requests.class));
                     //POJO_requests requests  = dataSnapshot1.getValue(POJO_requests.class);
                   //  POJO_requests requests = new POJO_requests(reqs);
