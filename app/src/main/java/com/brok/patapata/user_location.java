@@ -45,39 +45,39 @@ user_id= intent.getStringExtra("User ID");;
         Log.d("userid", user_id);
 
 
-    FirebaseDatabase.getInstance().getReference().child("users").child(user_id).addValueEventListener(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                //String no = snapshot.child("digit").getValue(String.class);
-                //phoneno.setText(no);
-                Double lat = snapshot.child("latitude").getValue(Double.class);
-                Double lng = snapshot.child("longitude").getValue(Double.class);
-                //if(lat!=null&&lng!=null) {
-                    ulocation = new LatLng(lat, lng);
-                  //  String City = getCity(ulocation);
-                Geocoder geocoder = new Geocoder(user_location.this, Locale.getDefault());
-                try {
-                    String mycity;
-                    List<Address> addresses = geocoder.getFromLocation(ulocation.latitude, ulocation.longitude, 1);
-                    String address = addresses.get(0).getAddressLine(0);
-                    mycity = addresses.get(0).getLocality();
-                    location.setText(mycity);
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-              //  }
-
-            }
-        }
-
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    });
+//    FirebaseDatabase.getInstance().getReference().child("users").child(user_id).addValueEventListener(new ValueEventListener() {
+//        @Override
+//        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                //String no = snapshot.child("digit").getValue(String.class);
+//                //phoneno.setText(no);
+//                Double lat = snapshot.child("latitude").getValue(Double.class);
+//                Double lng = snapshot.child("longitude").getValue(Double.class);
+//                //if(lat!=null&&lng!=null) {
+//                    ulocation = new LatLng(lat, lng);
+//                  //  String City = getCity(ulocation);
+////                Geocoder geocoder = new Geocoder(user_location.this, Locale.getDefault());
+////                try {
+////                    String mycity;
+////                    List<Address> addresses = geocoder.getFromLocation(ulocation.latitude, ulocation.longitude, 1);
+////                    String address = addresses.get(0).getAddressLine(0);
+////                    mycity = addresses.get(0).getLocality();
+////                    location.setText(mycity);
+////
+////                } catch (IOException e) {
+////                    e.printStackTrace();
+////                }
+//
+//              //  }
+//
+//            }
+//        }
+//
+//        @Override
+//        public void onCancelled(@NonNull DatabaseError databaseError) {
+//
+//        }
+//    });
 
 
 

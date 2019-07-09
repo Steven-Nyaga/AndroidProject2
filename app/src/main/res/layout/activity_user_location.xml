@@ -28,7 +28,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
             android:textSize="24dp"
-            android:text="Location"/>
+            android:text="Nairobi Akila 1 Estate"/>
 
         <TextView
             android:id="@+id/user_no"
