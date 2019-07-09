@@ -184,7 +184,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         rounded = bd.setScale(2, RoundingMode.HALF_UP);
                         values = rounded.doubleValue();
                     }
-                    int speedIs1KmMinute = 100;
+                    int speedIs1KmMinute = 50;
                     final float estimatedDriveTimeInMinutes = (float) (values / speedIs1KmMinute);
 
                     mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
@@ -197,10 +197,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         Toast toast = Toast.makeText(MapsActivity.this, status, Toast.LENGTH_LONG);
                         toast.show();
 
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.map), rates, Snackbar.LENGTH_LONG);
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.map), "300ksh/Litre", Snackbar.LENGTH_LONG);
                         snackbar.setAction(R.string.Buy, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                float use = estimatedDriveTimeInMinutes;
                                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("requests");
                                 pushid = mDatabase.push().getKey();
                                 mDatabase.child(pushid).child("driverid").setValue(ident);
@@ -210,8 +211,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 mDatabase.child(pushid).child("longitude").setValue(lng);
                                 mDatabase.child(pushid).child("litres").setValue(litres);
                                 Intent intent = new Intent(MapsActivity.this, Activity_User_Confirmpay.class);
-                                intent.putExtra("ident",ident);
-                                intent.putExtra("time", estimatedDriveTimeInMinutes);
+                                intent.putExtra("ident",use);
                                 Bundle extras = new Bundle();
                                 extras.putString("status", "Data Received!");
                                 intent.putExtras(extras);
