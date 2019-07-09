@@ -52,12 +52,23 @@ user_id= intent.getStringExtra("User ID");;
                 //String no = snapshot.child("digit").getValue(String.class);
                 //phoneno.setText(no);
                 Double lat = snapshot.child("latitude").getValue(Double.class);
-                Double lng = snapshot.child("latitude").getValue(Double.class);
-                if(lat!=null&&lng!=null) {
+                Double lng = snapshot.child("longitude").getValue(Double.class);
+                //if(lat!=null&&lng!=null) {
                     ulocation = new LatLng(lat, lng);
-                    String City = getCity(ulocation);
-                    location.setText(City);
+                  //  String City = getCity(ulocation);
+                Geocoder geocoder = new Geocoder(user_location.this, Locale.getDefault());
+                try {
+                    String mycity;
+                    List<Address> addresses = geocoder.getFromLocation(ulocation.latitude, ulocation.longitude, 1);
+                    String address = addresses.get(0).getAddressLine(0);
+                    mycity = addresses.get(0).getLocality();
+                    location.setText(mycity);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
+
+              //  }
 
             }
         }
