@@ -26,7 +26,7 @@ public class activity_mpesa extends AppCompatActivity {
     //declare daraja as a global variable
     Daraja daraja;
     String phonenumber;
-
+    //testing if it works
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
