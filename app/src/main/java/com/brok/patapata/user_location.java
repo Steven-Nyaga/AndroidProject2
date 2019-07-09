@@ -36,12 +36,13 @@ public class user_location extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_location);
         label = (TextView)findViewById(R.id.label);
-        phoneno = (TextView)findViewById(R.id.user_no);
-        label2 = (TextView)findViewById(R.id.label2);
+     //   phoneno = (TextView)findViewById(R.id.user_no);
+       // label2 = (TextView)findViewById(R.id.label2);
         location = (TextView)findViewById(R.id.user_location);
 
 
 user_id= getTheIntent();
+        Log.d("userid", user_id);
 if(user_id!=null) {
 
     FirebaseDatabase.getInstance().getReference().child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
@@ -52,10 +53,11 @@ if(user_id!=null) {
                 //phoneno.setText(no);
                 Double lat = snapshot.child("latitude").getValue(Double.class);
                 Double lng = snapshot.child("latitude").getValue(Double.class);
-               ulocation = new LatLng(lat, lng);
-                String City = getCity(ulocation);
-                location.setText(City);
-
+                if(lat!=null&&lng!=null) {
+                    ulocation = new LatLng(lat, lng);
+                    String City = getCity(ulocation);
+                    location.setText(City);
+                }
 
             }
         }

@@ -28,14 +28,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
             android:textSize="24dp" />
-        <TextView
-            android:id="@+id/label2"
-            android:layout_width="match_parent"
-            android:textAlignment="center"
-            android:text="@string/call_this_number_for_more_detailed_directions"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorAccent"
-            android:textSize="24dp" />
+
         <TextView
             android:id="@+id/user_no"
             android:layout_width="match_parent"
