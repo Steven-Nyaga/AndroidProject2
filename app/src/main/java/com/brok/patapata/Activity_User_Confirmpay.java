@@ -24,6 +24,7 @@ public class Activity_User_Confirmpay extends AppCompatActivity {
     private TextView textView;
     public  String user_id;
     public String push_key;
+    public String ident;
     //private Task<Void> mDelete;
 
     @Override
@@ -32,7 +33,7 @@ public class Activity_User_Confirmpay extends AppCompatActivity {
         setContentView(R.layout.activity__user__confirmpay);
 
         Intent intent = getIntent();
-        final String ident = intent.getStringExtra("ident");
+        ident = intent.getStringExtra("ident");
         textView = (TextView)findViewById(R.id.tvMessage);
         textView.setText(ident);
   /*    Bundle bundle = intent.getExtras();
