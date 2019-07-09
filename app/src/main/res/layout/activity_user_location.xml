@@ -27,7 +27,8 @@
             android:textAlignment="center"
             android:layout_height="wrap_content"
             android:textColor="@color/colorAccent"
-            android:textSize="24dp" />
+            android:textSize="24dp"
+            android:text="Location"/>
 
         <TextView
             android:id="@+id/user_no"
