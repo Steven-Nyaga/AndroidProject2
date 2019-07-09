@@ -2,16 +2,16 @@ package com.brok.patapata;
 
 public class POJO_requests {
     private String userid;
-    private  String driverid;
+  //  private  String driverid;
     private String litres;
     private Double latitude;
     private Double longitude;
 
     public POJO_requests() {
     }
-    public POJO_requests(String userid, String driverid, String litres, Double latitude, Double longitude) {
+    public POJO_requests(String userid, String litres, Double latitude, Double longitude) {
         this.userid = userid;
-        this.driverid = driverid;
+       // this.driverid = driverid;
         this.litres = litres;
         this.latitude = latitude;
         this.longitude = longitude;
@@ -27,13 +27,13 @@ public class POJO_requests {
         this.userid = userid;
     }
 
-    public String getDriverid() {
-        return driverid;
-    }
+   // public String getDriverid() {
+    //    return driverid;
+   // }
 
-    public void setDriverid(String driverid) {
-        this.driverid = driverid;
-    }
+   // public void setDriverid(String driverid) {
+    //    this.driverid = driverid;
+   // }
 
 
 

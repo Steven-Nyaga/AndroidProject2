@@ -29,6 +29,7 @@ public class user_location extends AppCompatActivity {
     private TextView label, phoneno, location, label2;
     private DatabaseReference mReq;
     private Button report, cancel, finish;
+    private   LatLng ulocation;
     public  String user_id, userlocation, phone_no, driver_id;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,15 +44,15 @@ public class user_location extends AppCompatActivity {
 user_id= getTheIntent();
 if(user_id!=null) {
 
-    FirebaseDatabase.getInstance().getReference("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+    FirebaseDatabase.getInstance().getReference().child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                String no = snapshot.child("digit").getValue(String.class);
-                phoneno.setText(no);
+                //String no = snapshot.child("digit").getValue(String.class);
+                //phoneno.setText(no);
                 Double lat = snapshot.child("latitude").getValue(Double.class);
                 Double lng = snapshot.child("latitude").getValue(Double.class);
-                LatLng ulocation = new LatLng(lat, lng);
+               ulocation = new LatLng(lat, lng);
                 String City = getCity(ulocation);
                 location.setText(City);
 
@@ -87,12 +88,6 @@ else
             @Override
             public void onClick(View v) {
 
-//                Intent intent = new Intent(Activity_User_Confirmpay.this, Activity_Send_Report.class);
-//                intent.putExtra("ident",ident);
-//                Bundle extras = new Bundle();
-//                extras.putString("status", "Data Received!");
-//                intent.putExtras(extras);
-//                startActivity(intent);
                 Intent intent = new Intent(user_location.this, Activity_Send_Report.class);
                 intent.putExtra("Reportee", user_id);
                 startActivity(intent);
