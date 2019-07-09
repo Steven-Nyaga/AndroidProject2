@@ -55,12 +55,29 @@ public class request_adapter extends RecyclerView.Adapter<request_adapter.MyView
             @Override
             public void onDoubleClick() {
                 //Toast.makeText(context, "Yes", Toast.LENGTH_SHORT).show();
+                mReq = FirebaseDatabase.getInstance().getReference().child("requests");
+                mReq.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String user_id = snapshot.child("userid").getValue(String.class);
+                            if (user_id == requests.get(position).getUserid()) {
+                                FirebaseDatabase.getInstance().getReference().child("requests").removeValue();
+                            }
+                        }
+                    }
 
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
                 Intent intent = new Intent(context, user_location.class);
                 intent.putExtra("User ID", requests.get(position).getUserid());
                 context.startActivity(intent);
             }
         });
+
         holder.parentLayout.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
@@ -76,30 +93,7 @@ public void removeItem(int position){
         notifyItemRemoved(position);
         notifyItemRangeChanged(position, requests.size());
         //notifyDataSetChanged();
-          final String userid = requests.get(position).getUserid();
-       final String driverid = FirebaseAuth.getInstance().getCurrentUser().getUid();
-    mReq = FirebaseDatabase.getInstance().getReference().child("requests");
-    mReq.addListenerForSingleValueEvent(new ValueEventListener() {
-        @Override
-        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-               String user_id = snapshot.child("userid").getValue(String.class);
-                String driver_id = snapshot.child("driverid").getValue(String.class);
-               if(driver_id==driverid) {
-                   if (userid==user_id){
-                       //push_key=snapshot.getKey();
-                       //mReq.child(push_key).removeValue();
-                       snapshot.getRef().removeValue();
-                   }
-               }
-            }
-        }
 
-        @Override
-        public void onCancelled(@NonNull DatabaseError databaseError) {
-
-        }
-    });
 }
 
     @Override

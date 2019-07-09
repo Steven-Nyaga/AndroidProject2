@@ -41,7 +41,7 @@ public class user_location extends AppCompatActivity {
 
 
 user_id= getTheIntent();
-if(user_id==null) {
+if(user_id!=null) {
 
     FirebaseDatabase.getInstance().getReference("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
         @Override
@@ -66,7 +66,7 @@ if(user_id==null) {
     });
 }
 else
-    Toast.makeText(getApplicationContext(), "user id specified!", Toast.LENGTH_SHORT).show();
+{ Toast.makeText(getApplicationContext(), "user id specified!", Toast.LENGTH_SHORT).show();}
 
 
         driver_id =FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -75,25 +75,7 @@ else
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mReq = FirebaseDatabase.getInstance().getReference().child("requests");
-                mReq.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String cuser_id = snapshot.child("userid").getValue(String.class);
-                            if(FirebaseAuth.getInstance().getCurrentUser().getUid()==driver_id&&cuser_id==user_id){
-                                //push_key=snapshot.getKey();
-                                //mReq.child(push_key).removeValue();
-                                snapshot.getRef().removeValue();
-                            }
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
                 //FirebaseDatabase.getInstance().getReference().child("requests").child(ident).removeValue();
                 Intent intent = new Intent(user_location.this, driver.class);
                 startActivity(intent);
@@ -104,24 +86,7 @@ else
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mReq.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String cuser_id = snapshot.child("userid").getValue(String.class);
-                            if(FirebaseAuth.getInstance().getCurrentUser().getUid()==driver_id&&cuser_id==user_id){
-                                //push_key=snapshot.getKey();
-                                //mReq.child(push_key).removeValue();
-                                snapshot.getRef().removeValue();
-                            }
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
 //                Intent intent = new Intent(Activity_User_Confirmpay.this, Activity_Send_Report.class);
 //                intent.putExtra("ident",ident);
 //                Bundle extras = new Bundle();
@@ -138,24 +103,7 @@ else
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mReq.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                            String cuser_id = snapshot.child("userid").getValue(String.class);
-                            if(FirebaseAuth.getInstance().getCurrentUser().getUid()==driver_id&&cuser_id==user_id){
-                                //push_key=snapshot.getKey();
-                                //mReq.child(push_key).removeValue();
-                                snapshot.getRef().removeValue();
-                            }
-                        }
-                    }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
-                    }
-                });
                 Intent intent = new Intent(user_location.this, driver.class);
                 startActivity(intent);
             }
