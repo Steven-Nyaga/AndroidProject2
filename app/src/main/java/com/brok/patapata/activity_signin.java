@@ -41,9 +41,13 @@ DatabaseReference Users;
         auth = FirebaseAuth.getInstance();
 
         if (auth.getCurrentUser() != null) {
-            startActivity(new Intent(activity_signin.this, driver.class));
-            finish();
+            redirect();
         }
+
+//        if (auth.getCurrentUser() != null) {
+//            startActivity(new Intent(activity_signin.this, driver.class));
+//            finish();
+//        }
 
         // set the view now
         setContentView(R.layout.activity_signin);

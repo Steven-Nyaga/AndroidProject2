@@ -53,9 +53,9 @@ public class YourRequests extends Fragment {
                 for (DataSnapshot dataSnapshot1: dataSnapshot.getChildren()){
                   //  push_key = dataSnapshot1.getKey();
                     driverid = dataSnapshot1.child("driverid").getValue(String.class);
-                    cdriverid =FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    Log.d("driver id", driverid);
-                    Log.d("confirm driver id", cdriverid);
+                   cdriverid =FirebaseAuth.getInstance().getCurrentUser().getUid();
+//                    Log.d("driver id", driverid);
+//                    Log.d("confirm driver id", cdriverid);
                     POJO_requests requests  = dataSnapshot1.getValue(POJO_requests.class);
                     //problem code
                     if(cdriverid!=driverid){

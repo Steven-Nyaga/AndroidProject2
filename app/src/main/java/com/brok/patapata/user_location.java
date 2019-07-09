@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.model.LatLng;
 import com.google.firebase.auth.FirebaseAuth;
@@ -39,31 +40,36 @@ public class user_location extends AppCompatActivity {
         location = (TextView)findViewById(R.id.user_location);
 
 
-user_id=getTheIntent();
-        Log.d("user id", user_id);
-        FirebaseDatabase.getInstance().getReference().child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    String no = snapshot.child("digit").getValue(String.class);
-             phoneno.setText(no);
-             Double lat = snapshot.child("latitude").getValue(Double.class);
-                    Double lng = snapshot.child("latitude").getValue(Double.class);
-                    LatLng ulocation =new LatLng(lat, lng);
-String City = getCity(ulocation);
-location.setText(City);
+user_id= getTheIntent();
+if(user_id!=null) {
 
+    FirebaseDatabase.getInstance().getReference("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                String no = snapshot.child("digit").getValue(String.class);
+                phoneno.setText(no);
+                Double lat = snapshot.child("latitude").getValue(Double.class);
+                Double lng = snapshot.child("latitude").getValue(Double.class);
+                LatLng ulocation = new LatLng(lat, lng);
+                String City = getCity(ulocation);
+                location.setText(City);
 
-                                    }
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
 
             }
-        });
+        }
 
-driver_id =FirebaseAuth.getInstance().getCurrentUser().getUid();
+        @Override
+        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+        }
+    });
+}
+else
+    Toast.makeText(getApplicationContext(), "no user id specified!", Toast.LENGTH_SHORT).show();
+
+
+        driver_id =FirebaseAuth.getInstance().getCurrentUser().getUid();
 
         cancel = (Button) findViewById(R.id.cancel_transaction);
         cancel.setOnClickListener(new View.OnClickListener() {
