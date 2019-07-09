@@ -21,7 +21,7 @@
             android:textSize="24dp" />
 
         <EditText
-            android:id="@+id/mtext"
+            android:id="@+id/m_number"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -31,7 +31,7 @@
             android:singleLine="true"
             />
         <Button
-            android:id="@+id/mpay"
+            android:id="@+id/mlipa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/colorPrimary"
