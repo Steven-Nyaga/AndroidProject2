@@ -45,7 +45,7 @@ user_id= intent.getStringExtra("User ID");;
         Log.d("userid", user_id);
 
 
-    FirebaseDatabase.getInstance().getReference().child("users").child(user_id).addListenerForSingleValueEvent(new ValueEventListener() {
+    FirebaseDatabase.getInstance().getReference().child("users").child(user_id).addValueEventListener(new ValueEventListener() {
         @Override
         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
             for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
