@@ -51,7 +51,7 @@ public class Activity_Send_Report extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 input = reportvalue.getText().toString();
-                mwisho = "DriverID: " +  gotid  + " UserID: " + currentuser + " " + input;
+                mwisho = "Reporter ID: " + currentuser + " " + "Reportee ID: " +  gotid  + " " + input;
                 test.setText(mwisho);
 
                 FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
@@ -63,7 +63,7 @@ public class Activity_Send_Report extends AppCompatActivity {
 
     }
     private String getIncomingIntent(){
-        if(getIntent().hasExtra("User ID")){
+        if(getIntent().hasExtra("Reportee")){
             String userid = getIntent().getStringExtra("User ID");
             return userid;
         }

@@ -80,7 +80,7 @@ public class Activity_User_Confirmpay extends AppCompatActivity {
 //                intent.putExtras(extras);
 //                startActivity(intent);
                 Intent intent = new Intent(Activity_User_Confirmpay.this, Activity_Send_Report.class);
-                intent.putExtra("User ID", ident);
+                intent.putExtra("Reportee", ident);
                 startActivity(intent);
             }
         });

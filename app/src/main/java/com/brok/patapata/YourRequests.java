@@ -54,15 +54,15 @@ public class YourRequests extends Fragment {
                   //  push_key = dataSnapshot1.getKey();
                     driverid = dataSnapshot1.child("driverid").getValue(String.class);
                     cdriverid =FirebaseAuth.getInstance().getCurrentUser().getUid();
-                    Log.d("driver id", driverid);
-                    Log.d("confirm driver id", cdriverid);
+                   // Log.d("driver id", driverid);
+                  //  Log.d("confirm driver id", cdriverid);
                     POJO_requests requests  = dataSnapshot1.getValue(POJO_requests.class);
                     //problem code
-                    if(cdriverid!=driverid){
+                 //   if(cdriverid!=driverid){
 
 
                         list.add(requests);
-                   }
+                 //  }
                     //POJO_requests requests  = new POJO_requests(dataSnapshot1.child("").getValue(POJO_requests.class));
                     //POJO_requests requests  = dataSnapshot1.getValue(POJO_requests.class);
                   //  POJO_requests requests = new POJO_requests(reqs);

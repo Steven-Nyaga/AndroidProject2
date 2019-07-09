@@ -89,6 +89,8 @@
     <string name="change_language">Change to Kiswahili</string>
     <string name="hello_world">Channge Language</string>
     <string name="btn_swa">Kiswahili</string>
+    <string name="request_location_is_at">Request Location is at</string>
+    <string name="call_this_number_for_more_detailed_directions">Call this number for more detailed directions</string>
 
     <!-- Language options -->
     <string-array name="languages">
