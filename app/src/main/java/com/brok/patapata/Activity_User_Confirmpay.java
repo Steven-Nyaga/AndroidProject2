@@ -21,10 +21,10 @@ import com.google.firebase.database.ValueEventListener;
 public class Activity_User_Confirmpay extends AppCompatActivity {
     private DatabaseReference mReq;
     private Button report, button, finish;
-    private TextView textView;
+    private TextView textView, hours;
     public  String user_id;
     public String push_key;
-    public String ident;
+    public float ident;
     //private Task<Void> mDelete;
 
     @Override
@@ -33,14 +33,12 @@ public class Activity_User_Confirmpay extends AppCompatActivity {
         setContentView(R.layout.activity__user__confirmpay);
 
         Intent intent = getIntent();
-        ident = intent.getStringExtra("ident");
+        ident = intent.getFloatExtra("ident",0);
         textView = (TextView)findViewById(R.id.tvMessage);
-        textView.setText(ident);
-  /*    Bundle bundle = intent.getExtras();
-        String status = bundle.getString("status");
-        Toast toast = Toast.makeText(this, status, Toast.LENGTH_LONG);
-        toast.show();
-*/
+        textView.setText(String.valueOf(ident));
+
+        hours = (TextView)findViewById(R.id.hrs);
+
         button = (Button) findViewById(R.id.cancel_transaction);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,7 +88,7 @@ public class Activity_User_Confirmpay extends AppCompatActivity {
         finish.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(Activity_User_Confirmpay.this, activity_mpesa.class);
+                Intent intent = new Intent(Activity_User_Confirmpay.this, activity_user.class);
                 startActivity(intent);
             }
         });

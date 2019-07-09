@@ -44,6 +44,8 @@ import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.auth.User;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Map;
 
 import static com.google.android.gms.maps.model.BitmapDescriptorFactory.HUE_BLUE;
@@ -71,6 +73,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private String rates;
     public TextView textView;
     public String pushid;
+    float distance=0;
 
 
     @Override
@@ -138,7 +141,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(final GoogleMap googleMap) {
-        LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        final LatLng latLng = new LatLng(currentLocation.getLatitude(), currentLocation.getLongitude());
+        final double currentLatitude = currentLocation.getLatitude();
+        final double currentLongitude = currentLocation.getLongitude();
         //MarkerOptions are used to create a new Marker.You can specify location, title etc with MarkerOptions
         MarkerOptions markerOptions = new MarkerOptions().position(latLng).title("");
         googleMap.animateCamera(CameraUpdateFactory.newLatLng(latLng));
@@ -150,7 +155,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         mMap = googleMap;
         googleMap.setOnMarkerClickListener(this);
         googleMap.setOnMarkerClickListener(this);
-        mUsers = FirebaseDatabase.getInstance().getReference().child("driverdetails");
         mUsers.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -162,7 +166,26 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
 
                     location = new LatLng(lat, lng);
+                    double otherLat = lat;
+                    double otherLong = lng;
+
                     mMap.addMarker(new MarkerOptions().position(location)).setIcon(BitmapDescriptorFactory.defaultMarker(HUE_YELLOW));
+
+                    float[] results = new float[3];
+                    Location.distanceBetween(currentLatitude, currentLongitude,otherLat, otherLong, results);
+
+                    BigDecimal bd = new BigDecimal(results[0]);// results in meters
+                    BigDecimal rounded = bd.setScale(2, RoundingMode.HALF_UP);
+                    double values = rounded.doubleValue();
+
+                    if (values > 1000) {
+                        values = (Double) (values * 0.001f);// convert meters to Kilometers
+                        bd = new BigDecimal(values);
+                        rounded = bd.setScale(2, RoundingMode.HALF_UP);
+                        values = rounded.doubleValue();
+                    }
+                    int speedIs1KmMinute = 50;
+                    final float estimatedDriveTimeInMinutes = (float) (values / speedIs1KmMinute);
 
                     mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
                     @Override
@@ -173,11 +196,12 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         String status = bundle.getString("status");
                         Toast toast = Toast.makeText(MapsActivity.this, status, Toast.LENGTH_LONG);
                         toast.show();
-                        
-                        Snackbar snackbar = Snackbar.make(findViewById(R.id.map), rates, Snackbar.LENGTH_LONG);
+
+                        Snackbar snackbar = Snackbar.make(findViewById(R.id.map), "300ksh/Litre", Snackbar.LENGTH_LONG);
                         snackbar.setAction(R.string.Buy, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
+                                float use = estimatedDriveTimeInMinutes;
                                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference("requests");
                                 pushid = mDatabase.push().getKey();
                                 mDatabase.child(pushid).child("driverid").setValue(ident);
@@ -186,9 +210,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                                 mDatabase.child(pushid).child("latitude").setValue(lat);
                                 mDatabase.child(pushid).child("longitude").setValue(lng);
                                 mDatabase.child(pushid).child("litres").setValue(litres);
-
                                 Intent intent = new Intent(MapsActivity.this, Activity_User_Confirmpay.class);
-                                intent.putExtra("ident",ident);
+                                intent.putExtra("ident",use);
+                                Bundle extras = new Bundle();
+                                extras.putString("status", "Data Received!");
+                                intent.putExtras(extras);
                                 startActivity(intent);
                                 }
 

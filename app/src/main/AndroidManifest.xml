@@ -37,7 +37,6 @@
 
         <activity android:name=".Activity_User_Confirmpay" />
         <activity android:name=".Activity_Send_Report" />
-        <activity android:name=".activity_mpesa" />
         <activity
             android:name=".MapsActivity"
             android:label="@string/title_activity_map" />
