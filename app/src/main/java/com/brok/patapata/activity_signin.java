@@ -27,7 +27,10 @@ public class activity_signin extends AppCompatActivity {
     private FirebaseAuth auth;
     private ProgressBar progressBar;
     private Button btnSignup, btnLogin, btnReset;
-    public String acc_user, acc_driver, acc_admin, user_status;
+    public String  user_status;
+    public String acc_user = "user";
+    public String acc_admin = "admin";
+    public String acc_driver = "driver";
 DatabaseReference Users;
 
     @Override
@@ -107,42 +110,72 @@ DatabaseReference Users;
                                         Toast.makeText(activity_signin.this, getString(R.string.auth_failed), Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    acc_user = "user";
-                                    acc_admin = "admin";
-                                    acc_driver = "driver";
-                                    Users = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
-                                            getInstance().getCurrentUser().getUid());
-                                    Users.addValueEventListener(new ValueEventListener() {
-                                        @Override
-                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                                            user_status = dataSnapshot.child("status").getValue().toString();
-                                            if (user_status.equals(acc_user)) {
-                                                Intent intent = new Intent(activity_signin.this, activity_user.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                            if(user_status.equals(acc_driver)){
-                                                Intent intent = new Intent(activity_signin.this, driver.class);
-                                                startActivity(intent);
-                                                finish();
-                                            }
-                                            if(user_status.equals(acc_admin)){
-                                                Toast.makeText(activity_signin.this, "Use Web Admin Interface To Access This Account", Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                                            Toast.makeText(activity_signin.this, "Sth Failed", Toast.LENGTH_LONG).show();
-
-                                        }
-                                    });
+//                                    acc_user = "user";
+//                                    acc_admin = "admin";
+//                                    acc_driver = "driver";
+                                    redirect();
+//                                    Users = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
+//                                            getInstance().getCurrentUser().getUid());
+//                                    Users.addValueEventListener(new ValueEventListener() {
+//                                        @Override
+//                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                                            user_status = dataSnapshot.child("status").getValue().toString();
+//                                            if (user_status.equals(acc_user)) {
+//                                                Intent intent = new Intent(activity_signin.this, activity_user.class);
+//                                                startActivity(intent);
+//                                                finish();
+//                                            }
+//                                            if(user_status.equals(acc_driver)){
+//                                                Intent intent = new Intent(activity_signin.this, driver.class);
+//                                                startActivity(intent);
+//                                                finish();
+//                                            }
+//                                            if(user_status.equals(acc_admin)){
+//                                                Toast.makeText(activity_signin.this, "Use Web Admin Interface To Access This Account", Toast.LENGTH_LONG).show();
+//                                            }
+//                                        }
+//
+//                                        @Override
+//                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+//                                            Toast.makeText(activity_signin.this, "Sth Failed", Toast.LENGTH_LONG).show();
+//
+//                                        }
+//                                    });
 
 
 
                                 }
                             }
                         });
+            }
+        });
+    }
+    public void redirect(){
+        Users = FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
+                getInstance().getCurrentUser().getUid());
+        Users.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                user_status = dataSnapshot.child("status").getValue().toString();
+                if (user_status.equals(acc_user)) {
+                    Intent intent = new Intent(activity_signin.this, activity_user.class);
+                    startActivity(intent);
+                    finish();
+                }
+                if(user_status.equals(acc_driver)){
+                    Intent intent = new Intent(activity_signin.this, driver.class);
+                    startActivity(intent);
+                    finish();
+                }
+                if(user_status.equals(acc_admin)){
+                    Toast.makeText(activity_signin.this, "Use Web Admin Interface To Access This Account", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                Toast.makeText(activity_signin.this, "Sth Failed", Toast.LENGTH_LONG).show();
+
             }
         });
     }
