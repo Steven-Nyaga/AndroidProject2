@@ -77,36 +77,36 @@ public class activity_user extends AppCompatActivity implements NavigationView.O
         });
 
 
-        if (auth.getCurrentUser() != null) {
-
-            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-                return;
-            }
-            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-            locationRequest = new LocationRequest();
-            locationRequest.setInterval(5000);
-            locationRequest.setFastestInterval(2000);
-            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-            fusedLocationClient.requestLocationUpdates(locationRequest, new LocationCallback() {
-                @Override
-                public void onLocationResult(LocationResult locationResult) {
-                    super.onLocationResult(locationResult);
-                    Double latitude = locationResult.getLastLocation().getLatitude();
-                    Double longitude = locationResult.getLastLocation().getLongitude();
-                    if (latitude != null&&longitude!=null&&auth.getCurrentUser() != null){
-
-                        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
-                                getInstance().getCurrentUser().getUid()).child("latitude").setValue(latitude);
-                        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
-                                getInstance().getCurrentUser().getUid()).child("longitude").setValue(longitude);
-
-
-                    }
-                }
-            }, getMainLooper());
-
-        }
+//        if (auth.getCurrentUser() != null) {
+//
+//            if (checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//
+//                return;
+//            }
+//            fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+//            locationRequest = new LocationRequest();
+//            locationRequest.setInterval(5000);
+//            locationRequest.setFastestInterval(2000);
+//            locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//            fusedLocationClient.requestLocationUpdates(locationRequest, new LocationCallback() {
+//                @Override
+//                public void onLocationResult(LocationResult locationResult) {
+//                    super.onLocationResult(locationResult);
+//                    Double latitude = locationResult.getLastLocation().getLatitude();
+//                    Double longitude = locationResult.getLastLocation().getLongitude();
+//                    if (latitude != null&&longitude!=null&&auth.getCurrentUser() != null){
+//
+//                        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
+//                                getInstance().getCurrentUser().getUid()).child("latitude").setValue(latitude);
+//                        FirebaseDatabase.getInstance().getReference("users").child(FirebaseAuth.
+//                                getInstance().getCurrentUser().getUid()).child("longitude").setValue(longitude);
+//
+//
+//                    }
+//                }
+//            }, getMainLooper());
+//
+//        }
 
     }
 
