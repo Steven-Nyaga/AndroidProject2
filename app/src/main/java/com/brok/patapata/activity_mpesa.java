@@ -33,8 +33,8 @@ public class activity_mpesa extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_mpesa);
 
-        editTextPhone =findViewById(R.id.mtext);
-        btnLipa =findViewById(R.id.mpay);
+        editTextPhone =findViewById(R.id.m_number);
+        btnLipa =findViewById(R.id.mlipa);
         btnLipa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
